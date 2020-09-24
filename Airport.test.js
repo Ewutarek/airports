@@ -57,40 +57,29 @@ describe('Planes', function ()
         const person2 = new Passenger({name:"Katrina"})
         const person3 = new Passenger({name:"jane"})
         const person4 = new Passenger({name:"limpbzkit"})
-        for (let k = 1; k < 5; k++) {
-            let person = "person" + k
-            plane2.boardPassengers(person)
-        }
+        plane2.boardPassengers(person1)
+        plane2.boardPassengers(person2)
+        plane2.boardPassengers(person3)
+        plane2.boardPassengers(person4)
         expect(plane2.passengers.length).toBe(4)
     })
 
-    // test('We can read the weight of all bags on plane', () => 
-    // {
-    //     const plane2 = new Plane({airport_dest:"GATWICK"})
-    //     const person1 = new Passenger({name:"John"})
-    //     const person2 = new Passenger({name:"Katrina"})
-    //     const person3 = new Passenger({name:"jane"})
-    //     const person4 = new Passenger({name:"limpbzkit"})
-    //     const person5 = new Passenger({name:"Posh spice"})
-    //     const smallbag = new Bag(8)
-    //     const bigbag = new Bag(20)
+    test('We can read all passengers on plane', () => 
+    {
+        const plane2 = new Plane({airport_dest:"GATWICK"})
+        const person1 = new Passenger({name:"John"})
+        const person2 = new Passenger({name:"Katrina"})
+        const person3 = new Passenger({name:"jane"})
+        const person4 = new Passenger({name:"limpbzkit"})
+        const person5 = new Passenger({name:"Posh spice"})
+        plane2.boardPassengers(person1)
+        plane2.boardPassengers(person2)
+        plane2.boardPassengers(person3)
+        plane2.boardPassengers(person4)
+    
 
-    //     for (let k = 1; k < 5; k++) {
-    //         let person = "person" + k
-    //         plane2.boardPassengers(person.addBag)
-    //         // person.addBag(smallbag);
-    //         // person.addBag(bigbag);
-    //         // console.log(person)
-   
-
-
-
-    //     }
-
-    //     // const rucksac = new Bag(6)
-    //     // posh.addBag(rucksac)
-    //     // expect(plane.bags.weight).toBe(6)
-    // })
+        expect(plane2.passengers).toEqual([{"bags": [], "name": "John"}, {"bags": [], "name": "Katrina"}, {"bags": [], "name": "jane"}, {"bags": [], "name": "limpbzkit"}])
+    })
 })
 
 /*--------------------Test Airports----------------------------------------*/

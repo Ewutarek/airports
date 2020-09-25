@@ -100,17 +100,26 @@ describe('Airport', function ()
         console.log(Airport.airports)
     })
 
-    test('airport have extra data we can get', (done) =>
+    test('airport have extra data we can get (Async)', (done) =>
     {
         const LHR = new Airport({airport_name:"LHR"})
         const onData = function(err,data){
-            const dataString = String(data)
-            const info = JSON.parse(dataString)
-            expect(data.city).toBe('London')
+            expect(data.city).toEqual('London')
             done()
         }
         LHR.getInfo(onData)
-       
+    })
+
+    test('airport have extra data we can get (Promise)', () =>
+    {
+        
+        const LHR = new Airport({airport_name:"LHR"})
+        return LHR.getInfoPromise().then(
+            function(data){
+                expect(data.city).toEqual('London')
+                }
+        )
+
     })
 
     

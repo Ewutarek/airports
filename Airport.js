@@ -28,16 +28,31 @@ class Airport
     getInfo(onInfo)
     {
         const airportName = this.airport_name
-        const locationFile = path.join(__dirname, 'airports.json')
+        const locationFile = path.join(__dirname, 'airportsData.json')
         const callback = function(err, buffer){
-           const data = JSON.parse(String(buffer))
-           const arrayOfAirports = Object.keys(data).map(key => {
-               return data[key]
-           })
+        const arrayOfAirports = JSON.parse(String(buffer))
+           
            const result = arrayOfAirports.find(airport => airport.iata === airportName)
-           onInfo(err,data)
+          onInfo(err,result)
         }
-       fs.readFile(locationFile, callback)
+       fs.readFile(locationFile, callback) 
+    }
+
+    getInfoPromise()
+    {
+        return new Promise((resolve,reject) => {
+      
+            const airportName = this.airport_name
+            const locationFile = path.join(__dirname, 'airportsData.json')
+            const callback = function(err, buffer){
+            const arrayOfAirports = JSON.parse(String(buffer))
+               
+               const result = arrayOfAirports.find(airport => airport.iata === airportName)
+                resolve(result)
+            }
+            fs.readFile(locationFile, callback) 
+        })
+       
     }
 }
 

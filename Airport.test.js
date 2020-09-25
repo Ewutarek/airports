@@ -1,58 +1,25 @@
-const Bag = require('./Bag')
 const Passenger = require('./Passenger')
 const Plane = require('./Plane')
 const Airport = require('./Airport')
 
 
-/*-------------------Test bags-----------------------------------------*/
-describe('Bag', function ()
-{
-    test('bag has a weight', function () 
-    {
-        const bag = new Bag(13)
-        expect(bag.weight).toBe(13)
-    })
-})
 
 
-/*-------------------Test Passengers-----------------------------------------*/
-describe('Passenger', function ()
-{
-    test('Passenger has a name', function () 
-    {
-        const person = new Passenger({name:"Keratuwe"})
-        expect(person.name).toBe("Keratuwe")
-    })
-
-    test('Passenger has bags', () => 
-    {
-        const person = new Passenger({name:"John"})
-        const handluggage = new Bag(8)
-        person.addBag(handluggage)
-        expect(person.bags.length).toBe(1)
-    })
-
-    test('we can read the weight of Poshs bag', () => 
-    {
-        const posh = new Passenger({name:"Posh Spice"})
-        const rucksac = new Bag(6)
-        posh.addBag(rucksac)
-        expect(posh.bags[0].weight).toBe(6)
-    })
-})
 
 /*-------------------Test Planes-----------------------------------------*/
 describe('Planes', function ()
 {
-    test('Plane has a destinantion', function () 
-    {
-        const plane1 = new Plane({airport_dest:"Heathrow"})
-        expect(plane1.airport_dest).toBe("Heathrow")
-    })
+    // test('Plane has a destinantion', function () 
+    // {
+    //     const plane1 = new Plane()
+    //     const [DBLN,JHB] =  Airport.airports
+    //     DBLN.landPlanes(plane1)
+    //     expect(plane1.location).toBe('DBLN')
+    // })
 
     test('Plane has passengers', () => 
     {
-        const plane2 = new Plane({airport_dest:"GATWICK"})
+        const plane2 = new Plane({destination:"GATWICK"})
         const person1 = new Passenger({name:"John"})
         const person2 = new Passenger({name:"Katrina"})
         const person3 = new Passenger({name:"jane"})
@@ -64,9 +31,9 @@ describe('Planes', function ()
         expect(plane2.passengers.length).toBe(4)
     })
 
-    test('We can read all passengers on plane', () => 
+    test('We can read of all passengers on plane', () => 
     {
-        const plane2 = new Plane({airport_dest:"GATWICK"})
+        const plane2 = new Plane({destination:"GATWICK"})
         const person1 = new Passenger({name:"John"})
         const person2 = new Passenger({name:"Katrina"})
         const person3 = new Passenger({name:"jane"})
@@ -87,18 +54,65 @@ describe('Airport', function ()
 {
     test('Airport has a name', function () 
     {
-        const airport1 = new Airport({airport_name:"O.R Thambo Intl"})
-        expect(airport1.airport_name).toBe("O.R Thambo Intl")
+        const airport1 = new Airport({airport_name:"DBLN"})
+        const airport2 = new Airport({airport_name:"JHB"})
+        const airport3 = new Airport({airport_name:"LAX"})
+        const airport4 = new Airport({airport_name:"LHR"})
+        expect(airport1.airport_name).toBe("DBLN")
+        expect(airport2.airport_name).toBe("JHB")
+        expect(airport3.airport_name).toBe("LAX")
+        expect(airport4.airport_name).toBe("LHR")
+
     })
 
     test('Airport has planes', () => 
-    {
-        const airport1 = new Airport({airport_name:"O.R Thambo Intl"})
-        const plane1 = new Plane({airport_dest:"Heathrow"})
-        const plane2 = new Plane({airport_dest:"Gatwick"})
+     {  
+        const plane1 = new Plane() //creating a plane that travels from DBLN to JHB
+        const [airport1, airport2 ] = Airport.airports
         airport1.landPlanes(plane1)
-        airport1.landPlanes(plane2)
-        expect(airport1.planes.length).toBe(2)
+        expect(plane1.location).toBe("DBLN")
+        plane1.setDestination(airport2.airport_name)
+        airport1.takeOff(plane1)
+        expect(airport1.planes.length).toBe(0)
+        expect(airport2.planes.length).toBe(1)
+
+        /*----------------Transfer plane1 from JHB to LAX--------------------------*/ 
+        // const [airport2, airport3] = Airport.airports
+        // plane1.setDestination(airport3.airport_name)
+        // airport3.takeOff(plane1)
+        // expect(airport2.planes.length).toBe(0)
+        // expect(airport3.planes.length).toBe(1)
+
+        /*----------------Transfer plane1 from LAX to LHR--------------------------*/         
+        // const plane2 = new Plane()
+        // const[airport3, airport4] = Airport.airports
+        // airport3.landPlanes(plane2)
+        // plane2.setDestination(airport4.airport_name)
+        // expect(plane2.location).toBe("LAX")
+        // console.log(plane2.location)
+
+
     })
+
+    test('let airports know about eachother', () =>
+    {
+        expect(Airport.airports.length).toBe(4)
+        console.log(Airport.airports)
+    })
+
+    test('airport have extra data we can get', (done) =>
+    {
+        const LHR = new Airport({airport_name:"LHR"})
+        const onData = function(err,data){
+            const dataString = String(data)
+            const info = JSON.parse(dataString)
+            expect(data.city).toBe('London')
+            done()
+        }
+        LHR.getInfo(onData)
+       
+    })
+
+    
 
 })

@@ -1,9 +1,17 @@
 class Plane
 {
-    constructor({airport_dest})
+    constructor()
     {
-        this.airport_dest = airport_dest
+        // this.destination = undefined
+        // this.location = undefined
         this.passengers = []
+    }
+
+    setDestination(destination) {
+        this.destination = destination
+    }
+    setLocation(location) {
+        this.location = location
     }
 
     boardPassengers(passenger)
